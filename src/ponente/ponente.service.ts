@@ -13,7 +13,7 @@ export class PonenteService {
     private readonly ponenteRepository: Repository<Ponente>
   ){}
 
-  async crearPonente(datos: Partial<Ponente>) {
+  async crearPonente(datos: CreatePonenteDto) {
     const email = datos.email!;
 
     if (datos.tipoPonente! == TipoPonente.INTERNO){
@@ -22,7 +22,7 @@ export class PonenteService {
         throw new Error("El correo no es valido.")
       }
     }else{
-      //Verificar @ y dominio
+      //Verificar @ y dominio ya se realizo en el DTO
     }
 
     const ponenete = this.ponenteRepository.create(datos);
