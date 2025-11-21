@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePonenteDto } from './dto/create-ponente.dto';
 import { UpdatePonenteDto } from './dto/update-ponente.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Ponente, TipoPonente } from './entities/ponente.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PonenteService {
-  create(createPonenteDto: CreatePonenteDto) {
-    return 'This action adds a new ponente';
+
+  constructor(
+    @InjectRepository(Ponente)
+    private readonly ponenteRepository: Repository<Ponente>
+  ){}
+
+  async crearPonente(datos: Partial<Ponente>) {
+    const email = datos.email!;
+
+    if (datos.tipoPonente! == TipoPonente.INTERNO){
+      const final = email.endsWith(".edu") 
+      if (!final){
+        throw new Error("El correo no es valido.")
+      }
+    }else{
+      //Verificar @ y dominio
+    }
+
+    const ponenete = this.ponenteRepository.create(datos);
+    return await this.ponenteRepository.save(ponenete);
   }
 
-  findAll() {
-    return `This action returns all ponente`;
+
+  async findPonenteById(id: number) {
+    const ponente : Ponente|null = await this.ponenteRepository.findOne({where:{id}});
+    if (!ponente){
+      throw new Error("El ponente no existe.")
+    }
+    return ponente;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ponente`;
-  }
 
-  update(id: number, updatePonenteDto: UpdatePonenteDto) {
-    return `This action updates a #${id} ponente`;
-  }
+  async eliminarPonente(id: number) {
+    const ponente = await this.findPonenteById(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} ponente`;
+    if (ponente.eventos.length > 0){
+      throw new Error("El ponente no se puede eliminar ya que tiene eventos asociados.")
+    }
+
+    return await this.ponenteRepository.delete(id);
   }
 }

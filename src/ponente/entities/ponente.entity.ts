@@ -1,6 +1,11 @@
 import { Evento } from "src/evento/entities/evento.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+export enum TipoPonente {
+  INTERNO = 'Interno',
+  INVITADO = 'Invitado'
+}
+
 @Entity('ponente')
 export class Ponente {
 
@@ -17,7 +22,7 @@ export class Ponente {
     email: string;
 
     @Column()
-    tipoPonente: string;
+    tipoPonente: TipoPonente;
 
     @Column()
     especialidad: string;

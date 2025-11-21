@@ -2,33 +2,30 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EventoService } from './evento.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
+import { NumericType } from 'typeorm';
 
 @Controller('evento')
 export class EventoController {
   constructor(private readonly eventoService: EventoService) {}
 
   @Post()
-  create(@Body() createEventoDto: CreateEventoDto) {
-    return this.eventoService.create(createEventoDto);
+  crearEvento(@Body() createEventoDto: any) {
+    return this.eventoService.crearEvento(createEventoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.eventoService.findAll();
+
+  @Patch(':id')
+  aprobarEvento(@Param('id') id: number) {
+    return this.eventoService.aprobarEvento(+id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventoService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
-    return this.eventoService.update(+id, updateEventoDto);
+  update(@Param('id') id: number) {
+    return this.eventoService.findEventoById(+id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.eventoService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.eventoService.eliminarEvento(+id);
   }
 }
