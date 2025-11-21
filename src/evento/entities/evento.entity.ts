@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Asistente } from "src/asistente/entities/asistente.entity";
+import { Auditorio } from "src/auditorio/entities/auditorio.entity";
+import { Ponente } from "src/ponente/entities/ponente.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('evento')
 export class Evento {
@@ -20,4 +23,13 @@ export class Evento {
 
     @Column()
     estado:string;
+
+    @ManyToOne(() => Ponente , (ponente) => ponente.eventos)
+    ponente: Ponente;
+
+    @ManyToOne(() => Auditorio, (auditorio) => auditorio.eventos)
+    auditorio:Auditorio;
+
+    @OneToMany(() => Asistente , (asistente) => asistente.evento)
+    asistentes: Asistente[];
 }
