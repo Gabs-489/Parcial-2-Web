@@ -16,12 +16,12 @@ export class EventoService {
   
 
 
-  async crearEvento(datos: Partial<Evento>) {
+  async crearEvento(datos: CreateEventoDto) {
     if (datos.duracionHoras! <= 0){
       throw new Error ("La duracion debe ser positiva y mayor a 0.")
     }
 
-    if (datos.ponente?.tipoPonente == TipoPonente.INVITADO && datos.descripcion!.length < 50){
+    if (datos.ponente.tipoPonente == TipoPonente.INVITADO && datos.descripcion!.length < 50){
       throw new Error ("La descripcion debe ser de mas de 50 caracteres.")
     }
 

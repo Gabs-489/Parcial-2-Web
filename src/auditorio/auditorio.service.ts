@@ -13,7 +13,7 @@ export class AuditorioService {
     private readonly auditorioRepository: Repository<Auditorio>
   ){}
 
-  async crearAuditorio (datos: Partial<Auditorio>) {
+  async crearAuditorio (datos: CreateAuditorioDto) {
     if (datos.capacidad! <= 0){
       throw new Error ("La capacidad no es valida.")
     }

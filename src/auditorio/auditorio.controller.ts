@@ -8,7 +8,7 @@ export class AuditorioController {
   constructor(private readonly auditorioService: AuditorioService) {}
 
   @Post()
-  create(@Body() createAuditorioDto: any) {
+  create(@Body() createAuditorioDto: CreateAuditorioDto) {
     return this.auditorioService.crearAuditorio(createAuditorioDto);
   }
 

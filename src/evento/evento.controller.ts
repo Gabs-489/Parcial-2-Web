@@ -9,7 +9,7 @@ export class EventoController {
   constructor(private readonly eventoService: EventoService) {}
 
   @Post()
-  crearEvento(@Body() createEventoDto: any) {
+  crearEvento(@Body() createEventoDto: CreateEventoDto) {
     return this.eventoService.crearEvento(createEventoDto);
   }
 
